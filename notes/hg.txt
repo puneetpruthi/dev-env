@@ -1,0 +1,34 @@
+#########################################################################
+# [hg]
+# get diff from last commit (not the head of the branch
+# Source:
+# http://stackoverflow.com/questions/15051591/diff-after-committing-locally
+# To diff the working directory against a particular revision REV, use
+
+#########################################################################
+# [hg]
+# To compare two revisions against each other, use
+hg diff -r REV 
+
+#########################################################################
+# [hg]
+# To figure out which revisions to compare, examine the output of hg log.
+hg diff -r REV1 -r REV2
+
+#########################################################################
+# [nightly] [lullaby] [packages]
+# to make new packages on an incremental nightly, do:
+dmake clobber under usr/src/pkg
+
+#########################################################################
+
+# see the files changed in a particular revision:
+	hg status --change <REVISION>
+
+#########################################################################
+
+# cancel/revert changes to a file
+
+	hg revert <filename>
+
+#########################################################################

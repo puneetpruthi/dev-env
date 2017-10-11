@@ -1,0 +1,46 @@
+#########################################################################
+
+for tracing a library function with dtrace, we should do one of the following:
+
+- use LD_PRELOAD=library path or library while we run the dtrace script with
+  the command, or
+- let the command run till the point that the library should have been loaded,
+  then stop the process and fire the dtrace script to the pid for the command
+
+#########################################################################
+
+To run dtrace files with a command line executable (or simply a command),
+run the script like:
+
+./dtrace-script.d -c 'Command to be run'
+
+#########################################################################
+# Argument numbering and naming
+
+For entry probes, the arguments are orderd as:
+	func(arg0, arg1, arg2, arg3 .... )
+
+For return probes, the return is contained in arg0
+	arg0 = return value for func()
+
+#########################################################################
+# Gets aggregated result for stacks that make xcalls
+
+	dtrace -n 'sysinfo:::xcalls { @[stack()] = count(); }'}
+
+################################################################
+
+ dtrace stop() 
+	The stop() function
+
+	When a probe fires with the stop() action enabled, the process that
+	fired that probe stops upon leaving the kernel. This process stops in
+	the same way as a process that is stopped by a proc(4) action.
+
+
+ http://docs.oracle.com/cd/E18752_01/html/819-5488/gcfbn.html#gcfrz
+https://blogs.oracle.com/chrisg/entry/follow_fork_for_dtrace_pid
+https://www.joyent.com/blog/stopping-a-broken-program-in-its-tracks
+
+-----------
+

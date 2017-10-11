@@ -1,0 +1,16 @@
+auths:
+	Auths are authorizations that a user/group needs to have to do
+	certain operations or group of operations: Eg. fork/sysconfig/manage
+	SMF/etc/
+
+privs:
+	Privileges are like permissions on a file - just on a resource that
+	a user is allowed to touch/read/write/use. Eg.: Modifying network
+	IP/ permissions to accessa file, making a directory, etc
+
+----------------------------
+
+ppriv -e -D <command> to know/debug what privileges are required to make the
+operation successful
+
+----------------------------

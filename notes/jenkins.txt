@@ -1,0 +1,14 @@
+ Making a machine a jenkins slave:
+
+ - WEIRDLY, the known_hosts for the ROOT user should have the slave keys
+  identified first in order for the master to connect to slave.
+ - add jenkins user with its home dir chown'ed to itself
+ - make password for jenkins as configured for the user on jenkins master
+ - add jenkins as a sudoer (add following line to sudoer file)
+	jenkins ALL= NOPASSWD: /usr/bin/pkg, /usr/sbin/reboot, /usr/sbin/svcadm, /usr/sbin/svccfg, /usr/bin/docker
+- this basically adds jenkins as a sudoer that is not required to add password
+for the given commands
+- add the node to the jenkins master - it should connect and configure on
+console without any issue.
+- YOU ARE GOLDEN :)
+

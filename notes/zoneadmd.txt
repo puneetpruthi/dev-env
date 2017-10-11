@@ -1,0 +1,54 @@
+# zoneadmd debug
+# debug zoneadmd
+# debugging zoneadmd
+# interpose zoneadmd
+# zoneadmd interpose
+# truss zoneadmd
+# zoneadmd truss
+#
+# wrap /usr/lib/zones/zoneadmd, copy it to zoneadmd.orig and replace zoneadmd
+# with the following script
+
+cp /usr/lib/zones/zoneadmd /usr/lib/zones/zoneadmd.orig
+cat <<"XXX" > /usr/lib/zones/zoneadmd
+#!/bin/ksh
+echo $$ > /tmp/zoneadmd.pid
+sleep 10
+exec -a /usr/lib/zones/zoneadmd /usr/lib/zones/zoneadmd.orig "$@"
+XXX
+
+# zoneadmd start
+#
+# do not forget -f since zoneadmd forks to daemonize (is that the sole reason?)
+###rm /tmp/zoneadmd.pid; while ! test -r /tmp/zoneadmd.pid; do printf .; sleep 1;
+###done; echo ""; truss -o output -f -wall -u libpool -u libzonecfg:: -u
+###libzoneadm:: -u a.out -p $( cat /tmp/zoneadmd.pid )
+#
+# note - the above works bad since zoneadmd forks and you are trussing commands
+# from brand scripts.  hundreds of thousands lines of output.  See below for a
+# better solution.
+# truss zoneadmd
+truss zoneadmd via the script above with -Tforkx (see below)
+	truss its child then with all -u you need
+	prun(1) both zoneadmd
+# ie.
+#
+# (0) copy the ksh script with sleep into /usr/lib/zones/zoneadmd
+# (1) run the truss that will stop zoneadmd on forkx.  When it stops the daemon
+# the truss itself will exit.
+	rm -f /tmp/zoneadmd.pid; while ! test -r /tmp/zoneadmd.pid; do printf .; sleep 1; done; echo ""; truss -o output2 -Tforkx -p $( cat /tmp/zoneadmd.pid )
+# (2) now attempt to start the zone; it will start zoneadmd, that's the one that
+# will be stopped on forkx via the truss above.  Given that the truss above is
+# gonna stop zoneadmd, this following command will hang.
+	truss -o output -wall -u libzonecfg:: -u libzoneadm:: -u a.out zoneadm 
+	-z test boot
+# (3) you should get two zoneadmd in stopped states (actually, in is S, one in T)
+ps -ef -o pid,s,comm | grep zoneadm
+# (4) run truss on the zoneadmd child (the one with S).  WARNING: you may want
+# to use "-f" as well.
+truss -o output3 -wall -u libpool -u libzonecfg:: -u libzoneadm:: -u 
+libdladm:: -u a.out -p 134966
+# (5) prun both of them
+prun 134961 134966
+# (6) wait for the error to show up, then you can kill the output3 truss if it's
+# still running.

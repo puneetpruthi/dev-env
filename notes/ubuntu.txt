@@ -1,0 +1,18 @@
+Steps to get ubuntu proxy settings for running on Oracle VPN
+------------------------------------------------------------
+
+1. Set apt proxy settings: (/etc/apt/apt.conf)
+   Add following lines to the file:
+
+	Acquire::http::proxy "<proxy>";
+	Acquire::https::proxy "<proxy>";
+
+------------------------------------------------------------
+
+ Install/Upgrade ubuntu
+
+ sudo apt-get update        # Fetches the list of available updates
+ sudo apt-get upgrade       # Strictly upgrades the current packages
+ sudo apt-get dist-upgrade  # Installs updates (new ones)
+
+---------------------------

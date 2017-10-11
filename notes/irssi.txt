@@ -1,0 +1,13 @@
+Connecting to server:
+/connect -ssl irc-sfbay 6697 <password>
+
+Joining a room:
+/j <room name>
+or
+/join <room name>
+
+Change nickname
+/nick <new_nickname>
+
+Quit:
+/quit

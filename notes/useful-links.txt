@@ -1,0 +1,287 @@
+#########################################################################
+#
+# Some useful links, tricks, links
+#
+# Author: Puneet Pruthi
+#
+#########################################################################
+
+#########################################################################
+# [hg]
+# get diff from last commit (not the head of the branch
+# Source:
+# http://stackoverflow.com/questions/15051591/diff-after-committing-locally
+# To diff the working directory against a particular revision REV, use
+
+#########################################################################
+# [hg]
+# To compare two revisions against each other, use
+hg diff -r REV 
+
+#########################################################################
+# [hg]
+# To figure out which revisions to compare, examine the output of hg log.
+hg diff -r REV1 -r REV2
+
+#########################################################################
+# [script] [brand] [debug]
+# To see whats happening at each line of a script (particularly brand script
+# in /usr/lib/brand/solaris-kz/common.ksh
+
+PS4='${.sh.fun}:$LINENO+ '; set -x
+
+then you can see what's happening on each line
+
+#########################################################################
+# [mdb]
+# coredump to make a mdb usable file. coredumps are usually at
+# /var/crash/{no. filed}
+savecore -vf filename
+
+#########################################################################
+# [nightly] [lullaby] [packages]
+# to make new packages on an incremental nightly, do:
+dmake clobber under usr/src/pkg
+
+#########################################################################
+# [process] [proc] [debug]
+# to know the list of dynamic libraries used by a process, use
+pldd <pid>
+
+#########################################################################
+# [pkg] [debug]
+# to search a package that delivers an executable,
+pkg search <path to executable>
+
+#########################################################################
+# [process] [proc] [debug]
+# to get info about threads of a given process
+prstat -L -p <pid>
+
+#########################################################################
+# [resources] [link] [memory]
+# memory segments architecture in solaris
+www.ribeiros.co.uk/documents/solaris_memoryarch.pdf
+
+#########################################################################
+# [resources] [link] [scsi] [iscsi]
+# how to configure a iscsi target
+	http://docs.oracle.com/cd/E19253-01/817-5093/6mkisoq8i/index.html
+
+#########################################################################
+# [process] [proc] [debug]
+# Know thy system (Print system config - tells RAM, Processors, etc)
+prtconf
+
+#########################################################################
+# [resources] [link] [libumem]
+# Link on how to use libumem:
+	https://blogs.oracle.com/dlutz/entry/memory_leak_detection_with_libumem
+
+#########################################################################
+# [disk] [debug] [zpool] [swap] [dump]
+# Disk information:
+zpool status ---> gives you zpool used by system + disks used
+swap -lh     ---> gives you zvol and hence the zpool under which they are
+dumpadm      ---> gives you zvol and hence the zpool under which they are
+
+
+#########################################################################
+# [debug] [awk]
+# Use awk to sum a column
+cat count.txt | awk '{ sum+=$1} END {print sum}'}}
+
+#########################################################################
+# [mdb]
+#   Modifying registers:
+>: Assign value to variable or register ':'. (value>register)
+ Eg.:
+ 	$0>rdi   --> Sets the value zero in rdi
+ 
+<: Read value from variable or register ':'.
+
+#########################################################################
+# [debug] [resources] [assembly]
+# Intel x86 ISA syntax
+mov source, destination
+
+#########################################################################
+
+# to print a structure:
+<addr>::print -t struct <struct name>
+or 
+<addr>::print -t <struct name w/ _t>
+NOTE: In a few don't use '_t' typedefs here. Use raw struct names
+
+# Link for mdb tricks
+	http://www.princeton.edu/~unix/Solaris/troubleshoot/adb.html
+
+#########################################################################
+# [lockstat] [blogs] [link]
+# Source: 
+#	https://blogs.oracle.com/sistare/entry/measuring_lock_spin_utilization
+# use lockstat utility as show in the link and then use the resource
+# at /home/pupruthi/lockutil so check stats
+
+# How to use:
+lockstat -kWP <utility command> > output_file
+
+# then use lockutil file onto the output file
+lockutil -n <no. of CPU> output_file
+
+#########################################################################
+# [psrset] [debug]
+# How to work with psrset (processor sets)
+
+# Create a processor set (NOTE: will generate a psrset#)
+psrset -c <cpu#> <cpu#> <cpu#> ...
+
+# Bind a pid to a psrset
+psrset -b <psrset #> <pid of target process>
+
+# Deactivate interrupts on the psrset:
+psrset -f <psrset#>
+
+# See CPU stats for psrset:
+zonestat -r psets <interval>
+
+#########################################################################
+# [kz] [boot] [be]
+# If you want to boot up a spinning/panicking KZ to a different BE, boot
+# it using the following:
+
+# Have a "sane BE" for the zone already present in the kz BE list. You
+# can create one by:
+	beadm create -a -e <sane-BE-name> <mytestbe-name>
+
+# Have a console terminal running for the kernel zone before-hand
+	zlogin -C <kz-name>
+
+# From the host, use the following boot command option for the zone:
+	zoneadm -z <kz-name> boot -- -L
+
+# You should get a menu-driven user prompt to choose a BE to boot with ?
+
+#########################################################################
+# [debug] [process] [scheduling]	
+     priocntl - display or set scheduling parameters of specified
+     processes and LWPs
+
+#########################################################################
+# [build] [pkg] [header files]
+# To build code/ files on any machine, where the header files are not
+# found, install the following package to proceed.
+     pkg install system/header
+
+#########################################################################
+# [xterm] [Xresources]
+#
+# After a change of config, to re-read your config, do:
+     xrdb ~/.Xresources
+
+#########################################################################
+# [mdb] [debug] [dmcds]
+# Common command to use to understand a core dump:
+
+# Stack
+	::stack
+
+# Panic info - Gives state of regs, thread info which triggered panic,
+               code which triggered panic
+	::panicinfo
+
+# Generic info of machine, time and OS version of system when panic was
+# generated - gives pid, os version, 
+	::status
+
+#########################################################################
+	Resource for debugging in general
+
+	http://dtrace.org/blogs/brendan/2011/06/18/mpstat-videos/
+
+-------------
+
+prtdiag - display system diagnostic information
+
+-------------
+
+	add a sudoer:
+
+	As a ROOT, execute visudo to edit the /etc/sudoer file and add an entry
+	for the username as:
+	$(USER) ALL=(ALL) ALL
+
+	That should do it.
+-------------
+
+Gets all programs called during execution, i.e
+all exeves, spaw, (for probably) too
+truss -fa -t\!all
+
+-------------
+
+ elfdump <file> prints the elf headerm, program headers info
+
+-------------
+
+ check storages available to a system:
+   format -e
+   diskinfo
+
+
+-------------
+
+   Get pids and pwd for a user processes:
+
+    pgrep -u <username> | xargs -n1 pwdx
+
+-------------
+
+	zoneadmd forks to create zsched - a kernel process which is the parent
+	kthread for all zone procs.
+
+	zsched forks to create the init process - via newproc, not fork.
+
+-------------
+
+ Identifying User/Kernel Level in Intel arch
+
+ Lower 2 bits of Code-Segment (CS) register determine current privilege level
+
+-------------
+
+ know faults occurring on hardware
+
+ mdb -k -w
+ tudebug/W 1 
+ tudebugfpe/W 1
+
+-------------
+
+ get values for control registers
+ - Can be done only in kernel
+
+ getcrN::call
+
+ when kernel breakpoints on your process
+
+-------------
+
+ dtrace stop() 
+	The stop() function
+
+	When a probe fires with the stop() action enabled, the process that
+	fired that probe stops upon leaving the kernel. This process stops in
+	the same way as a process that is stopped by a proc(4) action.
+
+
+ http://docs.oracle.com/cd/E18752_01/html/819-5488/gcfbn.html#gcfrz
+https://blogs.oracle.com/chrisg/entry/follow_fork_for_dtrace_pid
+https://www.joyent.com/blog/stopping-a-broken-program-in-its-tracks
+
+ prun <PID> to continue after stopping the process.
+-----------
+
+ phang <command> &
+
+ Stop the process before executing first line of code (Linker start)

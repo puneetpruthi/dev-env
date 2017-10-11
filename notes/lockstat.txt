@@ -1,0 +1,20 @@
+#########################################################################
+# [lockstat] [blogs] [link]
+# Source: 
+#	https://blogs.oracle.com/sistare/entry/measuring_lock_spin_utilization
+# use lockstat utility as show in the link and then use the resource
+# at /home/pupruthi/lockutil so check stats
+
+# How to use:
+lockstat -kWP <utility command> > output_file
+
+# then use lockutil file onto the output file
+lockutil -n <no. of CPU> output_file
+
+#########################################################################
+# 
+# Breaking down system time usage in the Solaris kernel
+
+http://prefetch.net/blog/index.php/2010/03/08/breaking-down-system-time-usage-in-the-solaris-kernel/
+
+#########################################################################

@@ -1,0 +1,42 @@
+#########################################################################
+# [psrset] [debug]
+# How to work with psrset (processor sets)
+
+# Create a processor set (NOTE: will generate a psrset#)
+psrset -c <cpu#> <cpu#> <cpu#> ...
+
+# Bind a pid to a psrset
+psrset -b <psrset #> <pid of target process>
+
+# Deactivate interrupts on the psrset:
+psrset -f <psrset#>
+
+# See CPU stats for psrset:
+zonestat -r psets <interval>
+
+# Delete  a psrset
+psrset -d <processor set #>
+
+#########################################################################
+
+# Notes from Jan
+
+# create pool
+poolcfg -dc 'create pool pool_janp'
+
+# set it to 1-2
+poolcfg -dc 'create pset pset_janp (uint pset.min=1; uint pset.max=2)'
+
+# Associate the pset with cpu IDs
+poolcfg -dc 'transfer to pset pset_janp ( cpu 0 )'
+poolcfg -dc 'transfer to pset pset_janp ( cpu 1 )'
+
+# Associate the pset with the pool created
+poolcfg -dc 'associate pool pool_janp ( pset pset_janp )'
+
+#poolcfg -dc 'transfer to pset pset_janp ( cpu 2 )'
+
+Apply/Bind the pool with the zone
+#poolbind -p pool_janp -i zoneid XXX
+
+#########################################################################

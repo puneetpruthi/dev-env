@@ -1,0 +1,92 @@
+googled "workable" hacks for git
+--------------------------------
+ 
+ INTERESTING LINKS:
+ ------------------
+
+   https://github.com/Kunena/Kunena-Forum/wiki/Create-a-new-branch-with-git-and-manage-branches
+   https://help.github.com/articles/pushing-to-a-remote/
+
+----------------------------
+
+ fold commits
+	git rebase -i HEAD~<number-of-commits-to-fold>
+ Eg:
+ 	git rebase -i HEAD~5
+
+ Source:
+ http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html
+  
+ ----------
+
+  push to my branch on git (without adding a new changeset).
+  This is basically trying to recommit and push onto git repo
+
+   git push -f fork <branch-name>
+
+------
+ 
+  merge master updates to branch
+
+   git checkout <target-branch>
+   git merge <source-branch-name>
+
+   ------- READ THIS AND UNDERSTAND ------
+   This is a very simple oepration. Basically on whichever branch you are this
+   operation will merge ON that branch. Which ever branch you specify in the
+   CLI, it is going to pick diff FROM that branch
+
+  THIS IS NOT ALWAYS THE BEST WAY TO MERGE YOUR CHANGES WITH MASTER UPDATES
+  BY DOING THIS WAY THE CHANGES IN BRANCH DO-NOT-GO-ON-TOP OF MASTER CHANGES
+  BUT GET SMUDGED IN BETWEEN THE MASTER HISTORY AND IT BECOMES MESSY
+
+|---------------------------------------------------------------|
+| To avoid this situtation and merge the changes, do		|
+|								|
+|    git rebase <source-branch-name> instead			|
+|---------------------------------------------------------------|
+
+  ------
+
+   Regenerate Godeps hierarchy:
+
+     godep restore
+     update repo you want to update in dependencies
+     godep save ./...
+      ^
+      |
+      |---- This creates _workspace for go (1.5-)
+	    This creates vendor for go (1.6+)
+
+-------
+ 
+ change commit message after commit
+
+ 	git commit --amend
+
+---
+
+For full path names of changed files:
+
+git log --name-only
+For full path names and status of changed files:
+
+git log --name-status
+For abbreviated pathnames and a diffstat of changed files:
+
+git log --stat
+
+---
+	
+push from a local branch to upstream branch
+
+	$ git push origin branchB:branchB
+
+	https://stackoverflow.com/questions/2765421/how-do-i-push-a-new-local-branch-to-a-remote-git-repository-and-track-it-too
+
+---
+
+  show branch tree:
+
+  [VERBOSE]
+  git log --graph --pretty=oneline --abbrev-commit

@@ -1,0 +1,132 @@
+#!/bin/ksh
+#
+# lockutil - calculate CPU utilization of lockstat spins
+#
+# Author: Steve Sistare, steve.sistare@sun.com
+# 
+# History
+#   Revision 1.0, 11/15/2009. Initial release.
+#
+# URL: http://blogs.sun.com/sistare/resource/code/lockutil
+#
+# Usage:
+#    lockutil -n ncpu file.lockstat
+#      - file.lockstat is the output from lockstat
+#      - ncpu is the number of CPUs on the system where lockstat was run
+
+USAGE="usage: lockutil -n ncpu [file.lockstat]"
+
+ncpu=0
+while getopts hn: i
+do
+        case $i in
+        n)      ncpu=`expr $OPTARG + 0 2>/dev/null`
+                if [ $? = 2 ] ; then 
+			echo "lockutil: -n argument must be numeric"
+                        exit 1
+                fi
+                if [ $ncpu -le 0 ] ; then 
+			echo "lockutil: -n argument must be positive"
+                        exit 1
+                fi
+                ;;
+        \h)     echo $USAGE
+                exit 0;;
+        \?)     echo $USAGE
+                exit 1;;
+        esac
+done
+shift `expr $OPTIND - 1`
+
+if [ $ncpu = 0 ] ; then
+    echo "lockutil: [-n ncpu] argument is required" ;
+    exit 1
+fi
+
+AWKFILE=/usr/tmp/_lockutil$$.$RANDOM.awk
+trap "rm -f $AWKFILE ; exit 0" 1 2 3 15
+cat > $AWKFILE << "EOF"
+#------------------------------------------------------------------------
+# process the output of lockstat and compute CPU utilization
+BEGIN { 
+    printf "%9s  %-20s %-20s\n", "CPU-util", "Lock", "Caller"
+}
+
+# Start a lock section
+/Adaptive mutex spin/ { i = 1; secs = $7; next; }
+/Spin lock spin/      { i = 1; secs = $7; next; }
+/Thread lock spin/    { i = 1; secs = $7; next; }
+
+# Do not use these sections; suppress by setting secs=0
+/Adaptive mutex block/ { secs = 0; next; }
+/Adaptive mutex hold/ { secs = 0; next; }
+/Spin lock hold/      { secs = 0; next; }
+/Thread lock hold/    { secs = 0; next; }
+/R\/W writer hold/    { secs = 0; next; }
+/R\/W/                { secs = 0; next; }
+
+/Profiling interrupt/ {
+    printf "error: cannot derive utilization from lockstat profiling mode\n";
+    exit 1;
+}
+
+# skip blank lines
+/^$/ { next; }
+
+# This is a header generated with the -R flag, so count is instead a
+# per-second rate.  Force elapsed time to 1.
+/ops\/s indv/ {
+    if (secs != 0)
+	secs = 1;
+    # fall thru to general header line processing.
+}
+
+# Either a header line or a line of dashes precedes a lock record,
+# depending on whether the file includes a histogram per lock or not.
+# Track the order in which these lines are seen in count_seen and dash_seen.
+# After both are seen, the next lines are records to process.
+
+# This is a header line
+/Count indv/ || /ops\/s indv/ {
+    if ($5 == "spin") {
+	printf "error: lockstat was run on an older release of Solaris that does not measure lock spin time. Try Solaris 10 10/08.\n";
+	exit 1;
+    }
+    count_seen = dash_seen + 1;
+    next;
+}
+
+# A line of dashes may start or end a section of lock data
+/------/ { 
+    if (dash_seen && count_seen) {	# end this section
+	dash_seen = 0;
+	count_seen = 0;
+    }
+    else 				# start a new section
+	dash_seen = count_seen + 1;
+    next;
+}
+
+# This line is a lock record to process
+(count_seen && dash_seen && secs > 0) {
+    caller = $7
+    util = ($1 * $5) / 1000000000 / ncpu / secs;
+    printf "%9.3f  %-20s %-20s\n", util, $6, $7
+    all_util += util;
+    if (dash_seen < count_seen)
+	dash_seen = count_seen = 0;
+    next;
+}
+
+END { 
+    printf "%9.3f  %-20s %-20s\n", all_util, "TOTAL", "TOTAL"
+    exit 0
+}
+
+#------------------------------------------------------------------------
+EOF
+
+/bin/nawk -v ncpu=$ncpu -f $AWKFILE $* 
+rm -f $AWKFILE
+
+exit 0

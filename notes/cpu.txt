@@ -1,0 +1,8 @@
+Resources on whats a CPU, socket, core, chip ?
+
+- solaris view of cpu, core, socket, hw thread for example:
+	https://blogs.oracle.com/JeffV/entry/what_s_a_solaris_cpu
+	https://blogs.oracle.com/sistare/entry/cpu_to_core_mapping
+	https://blogs.oracle.com/jsavit/entry/best_practices_core_allocation
+	https://blogs.oracle.com/travi/entry/ultrasparc_t1_utilization_explained
+	https://blogs.oracle.com/sistare/entry/the_ultrasparc_t2_processor_and

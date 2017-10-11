@@ -1,0 +1,11 @@
+################################################################
+# Resource for understanding how to debug
+
+	http://dtrace.org/blogs/brendan/2011/06/18/mpstat-videos/
+
+################################################################
+# Gets aggregated result for stacks that make xcalls
+
+	dtrace -n 'sysinfo:::xcalls { @[stack()] = count(); }'}
+
+################################################################

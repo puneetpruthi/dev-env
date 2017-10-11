@@ -1,0 +1,120 @@
+-----------------------------------------------------
+
+ # Promoting clones and origins
+
+>>     1790, 1841: Is there a reason to do this now and not after clean_clones_snapshots?  Since clean_clones_snapshots() will call promote_all_clones(), it seems likely that the origin property will change.
+>>
+>
+> Isn't that why we should save the origin to destroy in the end ? We only want to cleanup the datasets passed and its origin; not the origin that gets changed after promoting clones. Am I on the wrong track here ?
+
+Promoting clones does funny things.  Consider the following:
+
+root@kzx-02:~# mkfile -n 100m /tmp/a
+root@kzx-02:~# zpool create a /tmp/a
+root@kzx-02:~# zfs create -p a/z1/rpool/ROOT/be1
+root@kzx-02:~# zfs snapshot a/z1/rpool/ROOT/be1@z2-be1
+root@kzx-02:~# zfs clone -p a/z1/rpool/ROOT/be1@z2-be1 a/z2/rpool/ROOT/be1
+root@kzx-02:~# zfs snapshot a/z2/rpool/ROOT/be1@z3-be1
+root@kzx-02:~# zfs clone -p a/z2/rpool/ROOT/be1@z3-be1 a/z3/rpool/ROOT/be1
+root@kzx-02:~# zfs snapshot a/z2/rpool/ROOT/be1@z2-be2
+root@kzx-02:~# zfs clone a/z2/rpool/ROOT/be1@z2-be2 a/z2/rpool/ROOT/be2
+root@kzx-02:~# zfs list -r -t filesystem,snapshot -o name,origin a
+NAME                        ORIGIN
+a                           -
+a/z1                        -
+a/z1/rpool                  -
+a/z1/rpool/ROOT             -
+a/z1/rpool/ROOT/be1         -
+a/z1/rpool/ROOT/be1@z2-be1  -
+a/z2                        -
+a/z2/rpool                  -
+a/z2/rpool/ROOT             -
+a/z2/rpool/ROOT/be1         a/z1/rpool/ROOT/be1@z2-be1
+a/z2/rpool/ROOT/be1@z3-be1  -
+a/z2/rpool/ROOT/be1@z2-be2  -
+a/z2/rpool/ROOT/be2         a/z2/rpool/ROOT/be1@z2-be2
+a/z3                        -
+a/z3/rpool                  -
+a/z3/rpool/ROOT             -
+a/z3/rpool/ROOT/be1         a/z2/rpool/ROOT/be1@z3-be1
+
+
+Now I want to destroy be1 in z2.  Notice that it was cloned first by z3's be1 then by z2's be2.  Let's keep track of the z1/.../be1's origin
+
+root@kzx-02:~# origin=a/z1/rpool/ROOT/be1@z2-be1
+root@kzx-02:~# zfs promote a/z3/rpool/ROOT/be1
+root@kzx-02:~# zfs list -r -t filesystem,snapshot -o name,origin a
+NAME                        ORIGIN
+a                           -
+a/z1                        -
+a/z1/rpool                  -
+a/z1/rpool/ROOT             -
+a/z1/rpool/ROOT/be1         -
+a/z1/rpool/ROOT/be1@z2-be1  -
+a/z2                        -
+a/z2/rpool                  -
+a/z2/rpool/ROOT             -
+a/z2/rpool/ROOT/be1         a/z3/rpool/ROOT/be1@z3-be1
+a/z2/rpool/ROOT/be1@z2-be2  -
+a/z2/rpool/ROOT/be2         a/z2/rpool/ROOT/be1@z2-be2
+a/z3                        -
+a/z3/rpool                  -
+a/z3/rpool/ROOT             -
+a/z3/rpool/ROOT/be1         a/z1/rpool/ROOT/be1@z2-be1
+a/z3/rpool/ROOT/be1@z3-be1  -
+root@kzx-02:~# zfs promote a/z2/rpool/ROOT/be2
+root@kzx-02:~# zfs list -r -t filesystem,snapshot -o name,origin a
+NAME                        ORIGIN
+a                           -
+a/z1                        -
+a/z1/rpool                  -
+a/z1/rpool/ROOT             -
+a/z1/rpool/ROOT/be1         -
+a/z1/rpool/ROOT/be1@z2-be1  -
+a/z2                        -
+a/z2/rpool                  -
+a/z2/rpool/ROOT             -
+a/z2/rpool/ROOT/be1         a/z2/rpool/ROOT/be2@z2-be2
+a/z2/rpool/ROOT/be2         a/z3/rpool/ROOT/be1@z3-be1
+a/z2/rpool/ROOT/be2@z2-be2  -
+a/z3                        -
+a/z3/rpool                  -
+a/z3/rpool/ROOT             -
+a/z3/rpool/ROOT/be1         a/z1/rpool/ROOT/be1@z2-be1
+a/z3/rpool/ROOT/be1@z3-be1  -
+root@kzx-02:~# zfs destroy a/z2/rpool/ROOT/be1
+root@kzx-02:~# echo zfs destroy $origin | sh -x
++ zfs destroy a/z1/rpool/ROOT/be1@z2-be1
+cannot destroy 'a/z1/rpool/ROOT/be1@z2-be1': snapshot has dependent clones
+use '-R' to destroy the following datasets:
+a/z2/rpool/ROOT/be2@z2-be2
+a/z2/rpool/ROOT/be2
+a/z3/rpool/ROOT/be1@z3-be1
+a/z3/rpool/ROOT/be1
+
+That didn't go so well.  Why?
+
+root@kzx-02:~# zfs list -r -t filesystem,snapshot -o name,origin a
+NAME                        ORIGIN
+a                           -
+a/z1                        -
+a/z1/rpool                  -
+a/z1/rpool/ROOT             -
+a/z1/rpool/ROOT/be1         -
+a/z1/rpool/ROOT/be1@z2-be1  -
+a/z2                        -
+a/z2/rpool                  -
+a/z2/rpool/ROOT             -
+a/z2/rpool/ROOT/be2         a/z3/rpool/ROOT/be1@z3-be1
+a/z2/rpool/ROOT/be2@z2-be2  -
+a/z3                        -
+a/z3/rpool                  -
+a/z3/rpool/ROOT             -
+a/z3/rpool/ROOT/be1         a/z1/rpool/ROOT/be1@z2-be1
+a/z3/rpool/ROOT/be1@z3-be1  -
+
+The snapshot that was previously this dataset's orgin now became the origin of its first clone (z3's be1).  Notice now that the snapshot that was previously an origin snapshot that's not really needed is a/z2/rpool/ROOT/be2@z2-be2.  If you scroll up a bit, you will see that the @z2-be2 snapshot was the origin of the dataset we are destroying right after all the clones were promoted.
+
+Thus... if the origin were read after all the promotions were performed, the call to destroy_origin() would actually try to destroy the right snapshot.  As it is, it tries to destroy the wrong one.
+
+-----------------------------------------------------

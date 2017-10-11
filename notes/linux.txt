@@ -1,0 +1,24 @@
+Managing OWAN switches for network:
+
+- List the brige
+ovs-vsctl list-br
+
+- lists the ports on that bridge
+ovs-vsctl list-ports br0
+
+- delete port on the bridge
+ovs-vsctl del-port br0 <port>
+
+---------------
+
+ Listing interfaces:
+ 	- ip link show
+	- ip addr show
+	- netstat -i
+	- ifconfig -a
+
+--------------
+
+ Snoop network packets
+
+ tcpdump -i <interface> 'port <port#>'

@@ -1,0 +1,596 @@
+$<                       - replace input with macro
+$<<                      - source macro
+$?                       - print status and registers
+$C                       - print stack backtrace
+$M                       - list macro aliases
+$P                       - set debugger prompt string
+$Q                       - quit debugger
+$V                       - get/set disassembly mode
+$W                       - re-open target in write mode
+$b                       - list traced software events
+$c                       - print stack backtrace
+$d                       - get/set default output radix
+$e                       - print listing of global symbols
+$f                       - print listing of source files
+$m                       - print address space mappings
+$q                       - quit debugger
+$r                       - print general-purpose registers
+$s                       - get/set symbol matching distance
+$v                       - print non-zero variables
+$w                       - get/set output page width
+/                        - format data from virtual as
+:a                       - set read access watchpoint
+:b                       - breakpoint at the specified address
+:c                       - continue target execution
+:d                       - delete traced software events
+:e                       - step target over next instruction
+:p                       - set execute access watchpoint
+:s                       - single-step target to next instruction
+:u                       - step target out of current function
+:w                       - set write access watchpoint
+:x                       - change the active CPU
+:z                       - delete all traced software events
+=                        - format immediate value
+>                        - assign variable
+?                        - format data from virtual as
+@                        - format data from physical as
+Mo_capture_hash          - Print Memory Object Capture hash buckets 
+                           (mo_capbucket_t)
+Mw_later_hash            - Print Mapping Window Later hash buckets 
+                           (mw_laterbucket_t)
+System                   - Print the VM2 System structure
+\                        - format data from physical as
+abuf_find                - find arc_hdr_t of a specified DVA
+acl                      - given an inode, display its in core acl's
+addr2smap                - translate address to smap
+allocdby                 - given a thread, print its allocated buffers
+anidx2ap                 - given an anidx and anon_map, print an anon struct
+anon                     - print an anon struct
+arc                      - print ARC variables
+arphdr                   - display an ARP header
+array                    - print each array element's address
+as2proc                  - convert as to proc_t address
+binding_hash_entry       - print driver names hash table entry
+bitset                   - display a bitset
+blkptr                   - print blkptr_t
+bp                       - breakpoint at the specified addresses or symbols
+breadline                - print the per-MNODE,KU,SZC breadlines
+bufctl                   - print or filter a bufctl
+bufpagefind              - find page_t on buf_t list
+cachelist                - print cachelist information
+cagemap                  - Print kernel cage layout
+call                     - call a kernel function
+callout                  - display callouts
+calloutid                - print callout by extended id
+capture                  - print outstanding capture operations
+cg                       - display a summarized cylinder group structure
+class                    - print process scheduler classes
+cmihdl                   - dump a cmi_handle_t
+colordata                - get color data for gnuplot
+colormap                 - print color distribution in an AS
+conn_status              - display connection structures from ipcl hash 
+                           tables
+cont                     - continue target execution
+contract                 - display a contract
+cpc                      - Display contents of CPC context
+cpuinfo                  - print CPUs and runnable threads
+cpupart                  - print cpu partition info
+cpuregs                  - print general-purpose registers for a specific 
+                           CPU
+cpustack                 - print stack backtrace for a specific CPU
+crd                      - print CRDs
+credit                   - display credit tree
+crypto_data              - print as crypto_data
+crypto_dual_data         - print as crypto_dual_data
+crypto_find_reqid        - look for reqid, print if found [ -v = verbose ]
+crypto_key               - print as crypto_key
+crypto_mech_info         - print as crypto_mech_info
+crypto_mechanism         - details about a crypto mechanism
+crypto_provider_ext_info - module-private crypto provider info
+ctevent                  - display a contract event
+ctfinfo                  - list module CTF information
+ctid                     - convert id to a contract pointer
+cyccover                 - dump cyclic coverage information
+cycid                    - dump a cyclic id
+cycinfo                  - dump cyc_cpu info
+cyclic                   - developer information
+cyctrace                 - dump cyclic trace buffer
+damap                    - display a damap_t
+dbuf                     - print dmu_buf_impl_t
+dbuf_stats               - print dbuf hash stats
+dbufs                    - find dmu_buf_impl_t's that match specified 
+                           criteria
+dce                      - display Destination Cache Entry structures
+dcmds                    - list available debugger commands
+ddh_reloc                - print relocation entries from defdump header
+deadman_journal          - display the deadman journal
+defdump                  - print info about defdump dcmds and walkers
+defdump_boot_stats       - print defdump statistics acquired during the boot 
+                           process
+defdump_state            - print status of deferred dump subsystem
+defdumphdr               - print basic defdump header info
+delete                   - delete traced software events
+dev2major                - convert dev_t to a major number
+dev2minor                - convert dev_t to a minor number
+dev2snode                - given a dev_t, return the snode
+devbindings              - print devinfo nodes bound to device-name or 
+                           major-num
+devinfo                  - detailed devinfo of one node
+devinfo2driver           - find driver name for this devinfo node
+devinfo_audit            - devinfo configuration audit record
+devinfo_audit_log        - system wide devinfo configuration log
+devinfo_audit_node       - devinfo node configuration history
+devinfo_fm               - devinfo fault managment configuration
+devinfo_fmce             - devinfo fault managment cache entry
+devnames                 - print devnames array
+devnull                  - consume input
+devt                     - display a dev_t's major and minor numbers
+did2thread               - find kernel thread for this id
+dis                      - disassemble near addr
+disasms                  - list available disassemblers
+dismode                  - get/set disassembly mode
+dladm                    - show data link information
+dmods                    - list loaded debugger modules
+dnlc                     - print DNLC contents
+drc                      - RPC Duplicate Request Cache (DRC) information
+drc_bkt                  - RPC DRC hashbucket information
+drc_bktgrp               - RPC DRC hashbucket group information
+drc_clientdist           - RPC DRC client distribution
+drc_dupreq               - RPC DRC cache entry information
+drpmlog                  - print the DR/PM log
+dump                     - dump memory from specified address
+dump_bitmap              - display a dump_bitmap
+dva                      - print dva_t
+echo                     - echo arguments.
+enum                     - print an enumeration
+ereport                  - print ereports logged in dump
+errorq                   - display kernel error queues
+eval                     - evaluate the specified command
+events                   - list traced software events
+evport_list              - list processes using event_ports
+evport_src               - given a port, list associated sources
+evset                    - set software event specifier attributes
+fd                       - get a file pointer from an fd
+fed                      - print the Freelist Equity Dispensors
+fed_credit               - print a fed credit tree
+files                    - print listing of source files
+findleaks                - search for potential kernel memory leaks
+findstack                - find kernel thread stack
+findstack_debug          - toggle findstack debugging
+flb                      - print FreeList Buckets
+flbcolor                 - print FreeList Buckets color information
+flipone                  - the vik_rev_level 2 special
+formats                  - list format specifiers
+freedby                  - given a thread, print its freed buffers
+fsinfo                   - print mounted filesystems
+ftrace                   - Print ftrace_records (produces wide output)
+ftrace_state             - Display state of ftrace framework
+gate_desc                - dump a gate descriptor
+gcpu_poll_trace          - dump a poll trace buffer
+grep                     - print dot if expression is true
+group                    - display a group
+head                     - limit number of elements in pipe
+help                     - list commands/command help
+hookeventlist            - display hook event information
+hooklist                 - display hooks
+hookrootlist             - display hook family information
+hotplug                  - display a registered hotplug attachment
+hrtime                   - print an hrtime_t in human-readable format
+htables                  - Given hat_t *, lists all its htable_t * values
+idt                      - dump an IDT
+if                       - print structure address if condition is true
+ill                      - display ill_t structures
+illif                    - display or filter IP Lower Level InterFace 
+                           structures
+in                       - read from I/O port
+inode                    - display summarized inode_t
+inode_cache              - search/display inodes from inode cache
+intelrd_stats            - print Intel entropy provider statistics
+interrupts               - print interrupts
+iocblk                   - print iocblk structure or decode ioctl
+ip6hdr                   - display an IPv6 header
+ipaddr                   - display an IP address
+iphdr                    - display an IPv4 header
+ipif                     - display ipif structures
+ire                      - display Internet Route Entry structures
+irmpools                 - display interrupt pools
+irmreq                   - display an interrupt request
+irmreqs                  - display interrupt requests in an interrupt pool
+iscsi_cmd                - iSCSI command information (initiator only)
+iscsi_conn               - iSCSI connection information
+iscsi_isns               - print iscsit iSNS information
+iscsi_portal             - iSCSI portal information
+iscsi_refcnt             - print audit informtion for idm_refcnt_t
+iscsi_sess               - iSCSI session information
+iscsi_states             - dump events and state transitions recorded in an
+                                        idm_sm_audit_t structure
+iscsi_svc                - iSCSI service information
+iscsi_task               - iSCSI task information
+iscsi_tgt                - iSCSI target information
+iscsi_tpg                - iSCSI target portal group information
+iscsi_tpgt               - iSCSI target portal group tag information
+kcagemap                 - Print kernel cage layout
+kcf_areq_node            - print asynchronous crypto request struct, [ 
+                           verbose ]
+kcf_global_swq           - global or addr global crypto queue.  [ -v = 
+                           verbose ]
+kcf_policy_desc          - policy descriptors for crypto
+kcf_provider_desc        - crypto provider description struct
+kcf_reqid_table          - print contents of a request ID hash table [ -v = 
+                           verbose ]
+kcf_soft_conf_entry      - head or addr of configured software crypto 
+                           providers
+kgrep                    - search kernel as (alias for "mgrep")
+kmalog                   - display kmem transaction log and stack traces
+kmastat                  - kernel memory allocator stats
+kmausers                 - current medium and large users of the kmem 
+                           allocator
+kmem_cache               - print kernel memory caches
+kmem_debug               - toggle kmem dcmd/walk debugging
+kmem_dump                - print kmem usage during crash dump
+kmem_log                 - dump kmem transaction log
+kmem_slabs               - display slab usage per kmem cache
+kmem_verify              - check integrity of kmem-managed memory
+kom_class                - print a kernel object manager class
+kom_error_log            - dump kernel object manager debug log
+kom_obj                  - print a kernel object manager object
+kom_slab                 - print a kernel object manager slab [-p:PA]|
+kom_stats                - print kernel object manager kstats
+l1blocklists             - print defdump L1 blocklists
+l1entry                  - print info about defdump L1 entry
+l2blocklists             - print defdump L2 blocklists
+l2entries                - print info about all defdump L2 entries
+l2entry                  - print info about defdump L2 entry
+ldi_handle               - display a layered driver handle
+ldi_ident                - display a layered driver identifier
+lgrp                     - display an lgrp
+lgrp_set                 - display bitmask of lgroups as a list
+list                     - walk list using member as link pointer.
+lminfo                   - print lock manager information
+lnode                    - print lnode structure(s)
+lnode2dev                - print vfs_dev given lnode
+load                     - load debugger module
+mac                      - display important fields in mac_impl_t structure
+mac_client               - display important fields in mac_client_impl_t 
+                           structure
+mac_flow                 - display flow entry structures
+mac_ring                 - display MAC ring (hardware) structures
+major2name               - convert major number to dev name
+major2snode              - given a major number, return the snode(s)
+map                      - print dot after evaluating expression
+mapentry                 - dumps ufslog mapentry
+mappings                 - print address space mappings
+mapstats                 - dumps ufslog stats
+mblk                     - print an mblk
+mblk2dblk                - convert mblk_t address to dblk_t address
+mblk_verify              - verify integrity of an mblk
+mdiclient_paths          - given a path, walk mdi_pathinfo client links
+mdiphci                  - given a phci, dump mdi_phci and list all paths
+mdiphci_paths            - given a path, walk through mdi_pathinfo phci 
+                           links
+mdiphcis                 - given a phci, walk through mdi_phci ph_next links
+mdipi                    - given a path, dump mdi_pathinfo and detailed 
+                           pi_prop list
+mdiprops                 - given a pi_prop, dump the pi_prop list
+mdivhci                  - given a vhci, dump mdi_vhci and list all phcis
+memgrp                   - Print memory groups
+memlist                  - display a struct memlist or walk a memlist
+memmap                   - Print memory layout graphically
+memseg_list              - show memseg list
+memstat                  - display memory usage summary
+mgrep                    - search kernel as for a pointer
+mi                       - filter and display MI object or payload
+migratelog               - print the migration log
+minornodes               - given a devinfo node, print its minor nodes
+mnode                    - Print memory nodes
+mo                       - Print Memory Objects
+mo_caphead               - Print Memory Object Capture Headers
+mo_capture               - Print Memory Object Capture structures
+mo_lookup                - Lookup the physical address for a {mo, offset} 
+                           pair
+modctl                   - list modctl structures
+modctl2devinfo           - given a modctl, list its devinfos
+modent                   - display information about a mod_hash_entry
+modhash                  - display information about one or all mod_hash 
+                           structures
+modhdrs                  - given modctl, dump module ehdr and shdrs
+modinfo                  - list module information
+monode                   - Print a Memory Object Node
+monode_prealloc          - Print a monode_prealloc_t structure
+msgbuf                   - print most recent console messages
+multidata                - display a summarized multidata_t
+mutex                    - dump out an adaptive or spin mutex
+mvec                     - print a memory vector (mvec_t)
+mw                       - Print Mapping Windows
+name2major               - convert dev name to major number
+nce                      - display interface-specific Neighbor Cache 
+                           structures
+ncec                     - display Neighbor Cache Entry structures
+ndi_event_hdl            - print ndi_event_hdl
+netinfolist              - display netinfo information
+netstack                 - show stack instances
+netstat                  - show network statistics
+next                     - step target over next instruction
+nfs4_diag                - print queued recovery messages for NFSv4 client
+nfs4_drc                 - summarize v4 duplicate request cache (DRC)
+nfs4_fname               - print path name of nfs4_fname_t specified
+nfs4_foo                 - Dump NFSv4 freed open owners
+nfs4_idmap               - dump nfsidmap_t
+nfs4_idmap_info          - print nfs id-mapping information
+nfs4_mimsg               - print queued messages, expects address of 
+                           mi_msg_head
+nfs4_mntinfo             - print mntinfo4_t information
+nfs4_oo                  - Dump NFSv4 open owners
+nfs4_os                  - Dump NFSv4 open streams
+nfs4_server_info         - print nfs4_server_t information
+nfs4_servinfo            - print servinfo4_t information
+nfs4_svnode              - print svnode_t info at specified address
+nfs_expinfo              - dump exportinfo struct
+nfs_exptable             - dump exportinfo table
+nfs_exptable_path        - dump exportinfo path table
+nfs_expvis               - dump exportinfo visible list
+nfs_fid_hashdist         - Show fid hash distribution (-v displays 
+                           individual bucket lengths).
+nfs_get                  - get options for NFS MDB
+nfs_help                 - Show nfs commands
+nfs_mntinfo              - print mntinfo_t information
+nfs_nstree               - dump nfs pseudo namespace tree
+nfs_path_hashdist        - Show path hash distribution (-v displays 
+                           individual bucket lengths).
+nfs_rnode4               - dump NFSv4 rnodes 
+nfs_rnode4find           - find NFSv4 rnodes for given vfsp 
+nfs_servinfo             - print servinfo_t information
+nfs_set                  - set options for NFS MDB
+nfs_stat                 - print NFS statistics
+nfs_vfs                  - print all nfs vfs struct (-v for mntinfo) 
+nlm_lockson              - dump locks held on host
+nlm_sysid                - print lm_sysid information
+nlm_vnode                - print lm_vnode information
+nm                       - print symbols
+nmadd                    - add name to private symbol table
+nmdel                    - remove name from private symbol table
+numaio_group             - show numaio groups
+nvlist                   - print out an nvlist
+nvpair                   - print out an nvpair
+objects                  - print load objects information
+offsetof                 - print the offsets of members of type
+out                      - write to I/O port
+pa2pfn                   - given a PA, find the corresponding PFN
+pa2pp                    - given a PA, find the corresponding PP
+pa2rm                    - given a PA, find the corresponding RM
+pa2tilelet               - print the tilelet for a given PA
+pac_pageinfo             - print per-page state for a pa_capture_t
+pachunk                  - Print PA chunks
+page                     - display a summarized page_t
+page_num2pp              - find the page_t for a given page frame number
+pagelookup               - find the page_t with the name {vp, offset}
+pageout                  - print pageout state information
+panicinfo                - print panic information
+pattbl                   - display a summarized multidata attribute table
+pattr2multidata          - print multidata pointer from pattr_t
+pdesc2slab               - print pdesc slab pointer from pdesc_t
+pdesc_verify             - verify integrity of a pdesc_t
+pfiles                   - print process file information
+pfn2pa                   - given a PFN, find the corresponding PA
+pfn2pp                   - given a PFN, find the corresponding PP
+pfn2rm                   - given a PFN, find the corresponding RM
+pfn2tilelet              - print the tilelet for a given PFN
+pfn_rangeset             - print a pfn_rangeset_t or drdel_rangeset_t
+pg                       - display the system's Processor Groups
+pgrep                    - pattern match against all processes
+pid2proc                 - convert PID to proc_t address
+pmap                     - print process memory map
+policy_tab               - print global policy_tab
+postwait_deflist         - list registered deferred posts
+postwait_list            - list registered post-wait keys
+pp2pa                    - given a PP, find the corresponding PA
+pp2pfn                   - given a PP, find the corresponding PFN
+pp2rm                    - given a PP, find the corresponding RM
+predict                  - print bounds predictor state information
+print                    - print the contents of a data structure
+project                  - display kernel project(s)
+prov_tab                 - global table of crypto providers 
+prtconf                  - print devinfo tree
+prtusb                   - print trees and descriptors for usba_device_t
+ps                       - list processes (and associated thr,lwp)
+pszc                     - display memory usage/wastage using different 
+                           szc's to map a process
+ptable                   - Given PFN, dump contents of a page table
+pte                      - print human readable page table entry
+ptms                     - print pseudo-terminal information
+ptree                    - print process tree
+pty                      - print pseudo-terminal information (alias of 
+                           ::ptms
+q2otherq                 - print peer queue for a given queue
+q2rdq                    - print read queue for a given queue
+q2stream                 - print stream pointer for a given queue
+q2syncq                  - print syncq for a given queue
+q2wrq                    - print write queue for a given queue
+queue                    - filter and display STREAM queue
+quit                     - quit debugger
+rctl                     - print a rctl_t, only if it matches the handle
+rctl_dict                - print systemwide default rctl definitions
+rctl_list                - print rctls for the given proc
+rctl_validate            - test resource control value sequence
+rdmsr                    - read an MSR
+rdpcicfg                 - read a register in PCI config space
+refcount                 - print refcount_t holders
+regs                     - print general-purpose registers
+report_maps              - Given PFN, report mappings / page table usage
+retire                   - print a retire hash table entry
+rfs4_bkt                 - dump NFSv4 server index buckets
+rfs4_client              - dump NFSv4 rfs4_client_t structures
+rfs4_db                  - dump NFSv4 server state
+rfs4_deleg               - dump NFSv4 rfs4_deleg_state_t structures
+rfs4_file                - dump NFSv4 rfs4_file_t structures
+rfs4_fsh_bkt_sum         - dump summary for all of the NFSv4 server file 
+                           system entries
+rfs4_fsh_ent_sum         - dump summary for the NFSv4 server file system 
+                           entry
+rfs4_fsh_stats           - dump stats for the NFSv4 server file system hash 
+                           table
+rfs4_idx                 - dump NFSv4 server index
+rfs4_lo                  - dump NFSv4 rfs4_lockowner_t structures
+rfs4_lsid                - dump NFSv4 rfs4_lo_state_t structures
+rfs4_oo                  - dump NFSv4 rfs4_OpenOwner_t structures
+rfs4_osid                - dump NFSv4 rfs4_state_t structures
+rfs4_tbl                 - dump NFSv4 server table
+rfs_inst                 - dump NFS Server Instance rfs_inst_t
+rfs_zone                 - dump NFS Server Instance rfs_zone_t
+rm                       - print Reverse Map entries
+rm2flb                   - print the FLB for an RM (whether or not the RM is 
+                           free)
+rm2pa                    - given an RM, find the corresponding PA
+rm2pfn                   - given an RM, find the corresponding PFN
+rm2pp                    - given an RM, find the corresponding PP
+rm2rmg                   - print the RMG for an RM
+rm2tilelet               - print the tilelet for a given RM
+rm_verify                - verify RM and page_t consistancy
+rmg                      - print Reverse Map Groups
+rmw                      - print a Reverse Map Wait structure
+rnd_stats                - print kernel random number device statistics
+rw_async                 - dump out rw_async requests
+rwlock                   - dump out a readers/writer lock
+sa_attr                  - given a sa_handle_t, print SA attribute address
+sa_attr_table            - given a sa_os_t, print SA attribute table
+sac                      - print System Available Color maps
+sarbox                   - audit flb, fed, crd totals
+save                     - assign variable and print dot
+sctp                     - display sctp control structure
+sctp_instr               - display instr
+sctp_istr_msgs           - display msg list on an instream
+sctp_mdata_chunk         - display a data chunk in an mblk
+sctp_reass_list          - display reass list
+sctp_set                 - display a SCTP set
+sctp_uo_reass_list       - display un-ordered reass list
+sctp_xmit_list           - display a given sctp_t's xmit list
+sctphdr                  - display an SCTP header
+seg                      - print address space segment
+set                      - get/set debugger properties
+showrev                  - print version information
+sizeof                   - print the size of a type or members of type
+slab2multidata           - print multidata pointer from pdesc_slab_t
+snode                    - filter and display snode structures
+sobj2ts                  - perform turnstile lookup on synch object
+sockparams               - print sockparams
+softint                  - print soft interrupts
+softstate                - retrieve soft-state pointer
+sonode                   - filter and display sonode
+sort                     - sort the pipeline
+soupline                 - print the FED souplines
+spa                      - print spa_t summary
+spa_config               - print spa_t configuration
+spa_locks                - print spa_t config locks
+spa_space                - given a spa_t, print space usage summary
+spa_vdevs                - given a spa_t, print vdev summary
+
+spa_verify               - verify spa_t consistency
+squeue                   - print core squeue_t info
+srcid_status             - display connection structures from ipcl hash 
+                           tables
+stack                    - print stack backtrace
+stackinfo                - display kthread_t stack usage
+stackregs                - print stack backtrace and registers
+stacks                   - print unique kernel thread stacks
+status                   - print summary of current target
+stdata                   - filter and display STREAM head
+step                     - single-step target to next instruction
+stp_flows                - flows for a service
+stp_info                 - RPC task pool information
+str2mate                 - print mate of this stream
+str2wrq                  - print write queue of this stream
+stream                   - For a stream head display the stream stack that 
+                           contains it
+streams                  - Walk stream heads and display streams
+strftevent               - print STREAMS flow trace event
+strlen                   - print length of string
+sum                      - add up list of numbers
+swapinfo                 - display a struct swapinfo
+switch                   - change the active CPU
+swrand_stats             - print Software-based entropy provider statistics
+syncq                    - filter and display STREAM sync queue
+syncq2q                  - print queue for a given syncq
+sysevent                 - print sysevent pending or sent queue
+sysevent_channel         - print sysevent channel database
+sysevent_class_list      - print sysevent class list
+sysevent_subclass_list   - print sysevent subclass list
+syslayout                - print the physical memory layout of the system
+system                   - print contents of /etc/system file
+szc                      - print available SZCs
+tail                     - print the last elements in pipe
+task                     - display kernel task(s)
+taskq                    - display a taskq
+taskq_entry              - display a taskq_ent_t
+tcphdr                   - display a TCP header
+td                       - print Tile Data
+term                     - display current terminal type
+th_trace                 - display th_trace_t structures
+thread                   - display a summarized kthread_t
+threadlist               - display threads and associated C stack traces
+tile                     - print information about tiles on the system
+tilechunk                - Print tilechunks
+tilelet                  - print information about tilelets
+tileset                  - print per-LGRP tile sets
+time                     - display and convert system time
+tsd                      - print tsd[key-1] for this thread
+tsdtot                   - find thread with this tsd
+ttrace                   - dump trap trace buffers
+ttrace_state             - display kernel ttrace state
+turnstile                - display a turnstile
+typeset                  - set variable attributes
+udphdr                   - display an UDP header
+unload                   - unload debugger module
+unset                    - unset variables
+usb_pipe_handle          - print a usb_pipe_handle struct
+usba_clear_debug_buf     - clear usba_debug_buf
+usba_debug_buf           - print usba_debug_buf
+usba_device              - print summary info for a usba_device_t struct
+vars                     - print listing of variables
+vatopfn                  - translate address to physical page
+vdev                     - print vdev_t summary
+version                  - print debugger version string
+vhci_states              - dump all the vhci state pointers
+vhciguid                 - list all clients or given a guid, list one client
+vm2                      - list vm2 dcmds/walkers
+vm2_force_reinit         - XXX don't frob this
+vm2_sparse               - print VM2 sparse datastructures
+vmem                     - print a vmem_t
+vmem_seg                 - print or filter a vmem_seg
+vnode2path               - vnode address to pathname
+vnode2smap               - translate vnode to smap
+vtop                     - print physical mapping of virtual address
+walk                     - walk data structure
+walkers                  - list available walkers
+wc                       - count elements in pipeline (like '!wc -l')
+wchaninfo                - dump condition variable
+whatis                   - given an address, return information
+whatthread               - print threads whose stack contains the given 
+                           address
+whence                   - show source of walk or dcmd
+whereopen                - given a vnode, dumps procs which have it open
+which                    - show source of walk or dcmd
+wp                       - set a watchpoint at the specified address
+wrmsr                    - write an MSR
+wrpcicfg                 - write a register in PCI config space
+xdata                    - print list of external data buffers
+zap_leaf                 - print zap_leaf_phys_t
+zfs_ace                  - print zfs_ace
+zfs_ace0                 - print zfs_ace0
+zfs_aces                 - print all ACEs from a zfs_acl_t
+zfs_blkstats             - given a spa_t, print block type stats from last 
+                           scrub
+zfs_dbgmsg               - print zfs debug log
+zfs_params               - print zfs tunable parameters
+zfsinfo                  - print info for a ZFS filesystem for a given 
+                           zfsvfs_t or all mounted ZFS filesystems
+zio                      - print zio_t summary
+
+zio_buf                  - given a zio_t, return the associated 
+                           vdev_disk_buf_t
+zio_state                - print out all zio_t structures on the system or 
+                           for a particular pool
+zone                     - display kernel zone(s)
+zsd                      - display zone-specific-data entries for selected 
+                           zones
+zvio_desc                - Dump I/O descriptor in zvio
+zvol                     - print info for ZFS volume for given zvol_state_t

@@ -1,0 +1,14 @@
+creating a tar archive by excluding dirs
+
+- Add all files/directories to exclude in exclude_file
+- use options for:
+  p - Preserve Links
+  c - Create Arcvhive
+  v - Verbose
+  f - ?
+  X - Use exclude file argument
+
+echo ./logs001 > exclude_file
+tar pcvfX orderm_setup.tar exclude_file .
+
+---------------------------------

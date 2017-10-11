@@ -1,0 +1,58 @@
+Steps to run go-guru
+--------------------
+
+1. Install go-guru
+	$ mkdir <GO source dir>
+	$ export GOPATH=<dir-created-above>
+	$ go get golang.org/x/tools/cmd/guru	(setup proxy for this)
+	$ go build golang.org/x/tools/cmd/guru
+	$ mv guru $(go env GOROOT)/bin          (move guru to you $PATH)
+	$ guru -help
+	Go source code guru.
+	Usage: guru [flags] <mode> <position>
+
+2. Install vim plugin manager
+	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+2. Add these lines to ~/.vimrc to add vim-go plugin
+
+	" Adding plugins
+	call plug#begin()
+
+	" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
+	Plug 'fatih/vim-go'
+
+	" Add plugins to &runtimepath
+	call plug#end()
+
+3. Download and Install vim-go Plugin
+	On vim command line, install plugin:
+
+		:PlugInstall
+
+	This should install 'vim-go' plugin
+
+4. Might need to do :InstallGoBinaries
+
+5. Try:
+	:GoDef
+	:GoCallers
+	:GoCaleers
+	etc.
+
+------------------------------------------------------------------------------
+
+vim-plug
+--------
+https://github.com/junegunn/vim-plug
+
+vim-go
+------
+https://github.com/fatih/vim-go
+
+go-guru
+-------
+Link		:https://godoc.org/golang.org/x/tools/cmd/guru
+Documentation	: http://golang.org/s/using-guru
+
+------------------------------------------------------------------------------

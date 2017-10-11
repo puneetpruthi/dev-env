@@ -1,0 +1,9 @@
+network statistics
+
+ netstat -P icmp -s 1 100
+
+---------------
+
+ ipv4 stats:
+
+ 	netstat -s -P ip -s 1 100

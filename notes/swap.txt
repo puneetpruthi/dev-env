@@ -1,0 +1,48 @@
+#########################################################################
+
+# [disk] [debug] [zpool] [swap] [dump]
+# Disk information:
+zpool status ---> gives you zpool used by system + disks used
+swap -lh     ---> gives you zvol and hence the zpool under which they are
+dumpadm      ---> gives you zvol and hence the zpool under which they are
+
+
+#########################################################################
+
+# [disk] [debug] [zpool] [swap] [dump]
+# Play with Swap Device
+
+http://www.oracle.com/technetwork/articles/servers-storage-admin/monitor-swap-solaris-zfs-2216650.html
+http://docs.oracle.com/cd/E26502_01/html/E29006/gizfl.html
+
+#########################################################################
+
+# Check swap space
+	swap -lh
+
+# Create a zpool using an iscsi disk/using file backed up/etc.
+	zpool create <storage uri> <zpool name>
+		or
+	zpool import <zpool name>
+
+# Let that zpool be mounted on /zpoolname dir.
+
+# Create a dataset on the zpool to backup the swap space
+	zfs create -V <size of swap> /zpoolname/myswap
+
+# This should create a zvol disk entry for the swap space like:
+	/dev/zvol/dsk/zpoolname/myswap
+
+# Attach the new created zvol and add it to swap space
+	swap -a /dev/zvol/dsk/rpool/newswap
+
+# Check if the new swap storage has been added to swap space ?
+	swap -lh
+
+# Remove the old swap space (if needed)
+	swap -f /path/to/old/zvol
+
+# Re-Check if the new swap storage has been added to swap space ?
+	swap -lh
+
+#########################################################################

@@ -1,0 +1,16 @@
+For openssl sshd:
+
+If ssh doesnt work and you need to debug what is going on:
+
+** From server end:
+	$ /usr/sbin/sshd -p 2222 -ddd
+		-p: Port ro run sshd on (manually over ridden)
+		-dddd: Debug level for prints
+
+
+** From client end:
+	$ ssh -p 2222 -vvv pupruthi@vzl-074
+		-p: Destination Port to connect to
+		-vvv: Verbose output/debug level
+
+==================================================

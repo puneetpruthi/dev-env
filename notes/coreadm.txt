@@ -1,0 +1,15 @@
+-----------------
+
+# Setting up system to generate core dumps for userland processes.
+# Source: https://docs.oracle.com/cd/E19146-01/820-4983/gebcu/index.html
+mkdir -p /var/cores
+coreadm -g /var/cores/%f.%n.%p.%t.core -e global -e global-setid -e log -d process -d proc-setid
+
+# See coreadm details:
+coreadm
+
+# Set size of coredumps
+ulimit -c unlimited
+ulimit -a
+
+----------------

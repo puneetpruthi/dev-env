@@ -1,0 +1,176 @@
+#########################################################################
+# to print a structure:
+
+<addr>::print -t struct <struct name>
+or 
+<addr>::print -t <struct name w/ _t>
+NOTE: In a few don't use '_t' typedefs here. Use raw struct names
+
+# Link for mdb tricks
+http://www.princeton.edu/~unix/Solaris/troubleshoot/adb.html
+
+#########################################################################
+# [mdb]
+# coredump to make a mdb usable file. coredumps are usually at
+# /var/crash/{no. filed}
+
+savecore -vf filename
+
+#########################################################################
+# [mdb]
+#   Modifying registers:
+
+>: Assign value to variable or register ':'. (value>register)
+ Eg.:
+ 	$0>rdi   --> Sets the value zero in rdi
+ 
+<: Read value from variable or register ':'.
+
+#########################################################################
+# [mdb] [trick]
+# to print a structure:
+
+<addr>::print -t struct <struct name>
+or 
+<addr>::print -t <struct name w/ _t>
+NOTE: In a few don't use '_t' typedefs here. Use raw struct names
+
+# Link for mdb tricks
+	http://www.princeton.edu/~unix/Solaris/troubleshoot/adb.html
+
+#########################################################################
+# [mdb] [debug] [dmcds]
+# Common command to use to understand a core dump:
+
+# Stack
+	::stack
+
+# Panic info - Gives state of regs, thread info which triggered panic,
+               code which triggered panic
+	::panicinfo
+
+# Generic info of machine, time and OS version of system when panic was
+# generated - gives pid, os version, 
+	::status
+
+# Status of each cpu:
+	::cpuinfo -v
+
+# Memory status
+	::memstat
+	::kom_stats
+
+# Thread stacks
+	::stacks -v
+
+# Message buffer:
+	::msgbuf
+
+#########################################################################
+# List all commands by module
+	dmods -l
+
+#########################################################################
+# List all walkers (used for walking link lists or AVL trees)
+	::walkers
+
+#########################################################################
+
+# Get offset for the member variable of a struct:
+
+	::offsetof 'struct scsi_pkt' pkt_state
+Source:	http://docs.oracle.com/cd/E19683-01/806-5222/debug-55/index.html
+
+#########################################################################
+
+ addr/<what to use>
+ 
+ +--------------------------------------+
+ |	MOST FREQUENTLY:		|
+ +--------------------------------------+
+ |	 Address(64-bit/32-bit)	: K	|
+ |	 String			: S	|
+ +--------------------------------------+
+
+       +         increment dot by the count (variable size)
+       -         decrement dot by the count (variable size)
+       B         hexadecimal int (1 byte)
+       C         character using C character notation (1 byte)
+       D         decimal signed int (4 bytes)
+       E         decimal unsigned long long (8 bytes)
+       F         double (8 bytes)
+       G         octal unsigned long long (8 bytes)
+       H         swap bytes and shorts (4 bytes)
+       I         address  and  disassembled instruction (variable
+                 size)
+       J         hexadecimal long long (8 bytes)
+       K         hexadecimal uintptr_t (4 or 8 bytes)
+       N         newline
+       O         octal unsigned int (4 bytes)
+       P         symbol (4 or 8 bytes)
+       Q         octal signed int (4 bytes)
+       R         binary int (8 bytes)
+       S         string using C string notation (variable size)
+       T         horizontal tab
+       U         decimal unsigned int (4 bytes)
+       V         decimal unsigned int (1 byte)
+       W         default radix unsigned int (4 bytes)
+       X         hexadecimal int (4 bytes)
+       Y         decoded time32_t (4 bytes)
+       Z         hexadecimal long long (8 bytes)
+       ^         decrement dot by  increment  *  count  (variable
+                 size)
+       a         dot as symbol+offset
+       b         octal unsigned int (1 byte)
+       c         character (1 byte)
+       d         decimal signed short (2 bytes)
+       e         decimal signed long long (8 bytes)
+       f         float (4 bytes)
+       g         octal signed long long (8 bytes)
+       h         swap bytes (2 bytes)
+       i         disassembled instruction (variable size)
+       n         newline
+       o         octal unsigned short (2 bytes)
+       p         symbol (4 or 8 bytes)
+       q         octal signed short (2 bytes)
+       r         whitespace
+       s         raw string (variable size)
+       t         horizontal tab
+       u         decimal unsigned short (2 bytes)
+       v         decimal signed int (1 byte)
+       w         default radix unsigned short (2 bytes)
+       x         hexadecimal short (2 bytes)
+       y         decoded time64_t (8 bytes)
+
+	More info at:
+	http://www.solarisinternals.com/si/tools/mdb/index.php
+
+#########################################################################
+
+	From TOI ... Apr 21 2016
+
+ - ::dcmds and ::walkers
+ - ::dmods -l zfs 
+ 	Lists all dcmds and walkers in zfs module
+- ::formats
+	All formats for / \ ? =
+- ::print -a prints symbols .. not value at address
+- utsname::print ... helpful
+- ::typegraph
+- ADDRESS::whattype tells type of struct (need to run ::typegraph to generate)
+- panic_cpu is a copy of cpu struct that took the panic
+- panic_thread is a ptr to the thread that was running on that cpu
+- ::walk thread foo ... walks threads storing thread addr into foo
+- ::act - produces human readable email of dump .. includes ::status
+- *panic_thread::findstack -v ... same as $C
+- *panic_thread::act_thread -s
+- Filtering dcmds
+	::stacks
+	::cpuinfo
+	::pgrep
+- ::if ... SUPER AWESOME for filtering .. especially with ::walk
+- ::offsetof can be used reverse as well .. to tell what member at what offset
+- ::sizeof can do reverse lookup
+- ::sort ... sorts for walkers/lists (not sure of list)
+
+#########################################################################

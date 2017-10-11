@@ -1,0 +1,13 @@
+crle is used to override the search paths for libraries and dependencies that
+are looked upon by run time linker (rtld)
+
+crle -64 : for generating search path config file for 64 bit executables
+
+-----------------------------------
+
+LD_DEBUG=files, ... etc can be used to get more debug information what ld is
+used for.
+To get more info type
+LD_DEBUG=help 
+
+-----------------------------------

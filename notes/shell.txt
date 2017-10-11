@@ -1,0 +1,91 @@
+#########################################################################
+# [script] [brand] [debug]
+# To see whats happening at each line of a script (particularly brand script
+# in /usr/lib/brand/solaris-kz/common.ksh
+
+PS4='${.sh.fun}:$LINENO+ '; set -x
+
+then you can see what's happening on each line
+
+#########################################################################
+# Shell script $ symbols 
+
+$# - no of arguments for script / function
+$@ - all argument of command line
+$$ - pid of the current bash
+$* - expands to all positional parameters passed to the command
+$! - pid of latest background process spawned by the shell
+
+#########################################################################
+
+# tail the latest file in a directory (used for reading latest logs)
+
+tail -5000f `ls -t | head -n1`
+
+#########################################################################
+
+ command1 && command2 :
+ command2 runs only if command1 succeeds
+
+ command1 || command2 :
+ command2 runs only if command1 fails
+
+#########################################################################
+ 
+ for each line in a file, operate a command utility on it:
+
+ while read p; do echo $p; done < <filename>
+                  -------
+		     |
+		     *-----> operation to do
+
+#########################################################################
+
+  Difference between [ and [[
+
+[[ is bash's improvement to the [ command. It has several enhancements that
+make it a better choice if you write scripts that target bash. My favorites
+are:
+
+    It is a syntactical feature of the shell, so it has some special behavior
+that [ doesn't have. You no longer have to quote variables like mad because
+[[ handles empty strings and strings with whitespace more intuitively. For
+example, with [ you have to write
+
+    if [ -f "$FILE" ]
+
+    to correctly handle empty strings or file names with spaces in them. With
+[[ the quotes are unnecessary:
+
+    if [[ -f $FILE ]]
+
+    Because it is a syntactical feature, it lets you use && and || operators
+for boolean tests and < and > for string comparisons. [ cannot do this because
+it is a regular command and &&, ||, <, and > are not passed to regular commands
+as command-line arguments.
+
+    It has a wonderful =~ operator for doing regular expression matches.
+With [ you might write
+
+    if [ "$ANSWER" = y -o "$ANSWER" = yes ]
+
+    With [[ you can write this as
+
+    if [[ $ANSWER =~ ^y(es)?$ ]]
+
+    It even lets you access the captured groups which it stores in BASH_REMATCH.
+For instance, ${BASH_REMATCH[1]} would be "es" if you typed a full "yes" above.
+
+    You get pattern matching aka globbing for free. Maybe you're less strict
+about how to type yes. Maybe you're okay if the user types y-anything. Got you
+covered:
+
+    if [[ $ANSWER = y* ]]
+
+Keep in mind that it is a bash extension, so if you are writing sh-compatible
+scripts then you need to stick with [. Make sure you have the #!/bin/bash
+shebang line for your script if you use double brackets.		     
+
+  more info: http://mywiki.wooledge.org/BashFAQ/031
+
+-------------------------
