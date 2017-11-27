@@ -4,7 +4,6 @@ What we have included here are:
 - bashrc
 - bash profile
 - vimrc
-- irssi
 
 It contains stuff mostly picked from online resources and things that I learnt while experimenting myself.
 
