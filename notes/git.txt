@@ -28,25 +28,9 @@ googled "workable" hacks for git
  
   merge master updates to branch
 
-   git checkout <target-branch>
-   git merge <source-branch-name>
+	git rebase <source-branch-name> instead
 
-   ------- READ THIS AND UNDERSTAND ------
-   This is a very simple oepration. Basically on whichever branch you are this
-   operation will merge ON that branch. Which ever branch you specify in the
-   CLI, it is going to pick diff FROM that branch
-
-  THIS IS NOT ALWAYS THE BEST WAY TO MERGE YOUR CHANGES WITH MASTER UPDATES
-  BY DOING THIS WAY THE CHANGES IN BRANCH DO-NOT-GO-ON-TOP OF MASTER CHANGES
-  BUT GET SMUDGED IN BETWEEN THE MASTER HISTORY AND IT BECOMES MESSY
-
-|---------------------------------------------------------------|
-| To avoid this situtation and merge the changes, do		|
-|								|
-|    git rebase <source-branch-name> instead			|
-|---------------------------------------------------------------|
-
-  ------
+------
 
    Regenerate Godeps hierarchy:
 
@@ -90,3 +74,11 @@ push from a local branch to upstream branch
 
   [VERBOSE]
   git log --graph --pretty=oneline --abbrev-commit
+
+---
+
+  show previous version of a file:
+
+       git show <sha>:<path>
+
+---
