@@ -278,10 +278,18 @@ set clipboard=unnamedplus	" use the clipboards of vim and win
 set go+=a			" Visual selection copied the clipboard
 
 " Key bindings - cscope/tags support
-map  :cs find g <C-R>=expand("<cword>") " find definition
-map ^S :cs find s <C-R>=expand("<cword>") " find C symbol
-map  :cs find x <C-R>=expand("<cword>") " find callers
-map  :cs find t <C-R>=expand("<cword>") " find assignments
+map  :cs find g <C-R>=expand("<cword>")
+
+ " find definition
+map ^S :cs find s <C-R>=expand("<cword>")
+
+ " find C symbol
+map  :cs find x <C-R>=expand("<cword>")
+
+ " find callers
+map  :cs find t <C-R>=expand("<cword>")
+
+ " find assignments
 
 " File suffixes to ignore for editing selection (via :e).
 set suffixes=.o,.bc,.aux,.dvi,.gz,.idx,.log,.ps,.swp,.tar,.tgz,~
@@ -336,3 +344,9 @@ colorscheme default
 "Plug 'fatih/vim-go'
 
 "call plug#end()
+
+if system('uname -s') == "Linux\n"
+  set clipboard=unnamedplus
+else
+  set clipboard=unnamed
+endif
